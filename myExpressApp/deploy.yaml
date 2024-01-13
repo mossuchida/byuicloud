@@ -15,7 +15,7 @@ spec:
         deployment: myexpressapp
     spec:
       containers:
-      - image: mossuchida/myexpressapp:latest
+      - image: mossuchida/myexpressapp:welcome
         imagePullPolicy: IfNotPresent
         name: myexpressapp
         ports:
