@@ -255,7 +255,8 @@ Use the 'oc' command line interface:
 
 - Access oc cli with kubeadmin
 ```
-oc login -u kubeadmin -p nnnn.... https://api.crc.testing:6443```
+oc login -u kubeadmin -p nnnn.... https://api.crc.testing:6443
+```
 
 
 - Run the following command each time you start CRC to reduce the security so that root user can be used
