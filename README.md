@@ -156,6 +156,7 @@ docker image push docker.io/<YOUR USER NAME>/myexpressapp:latest
 Fix .gitignore
 - Check in the changes  by clicking on + sign right to `Changes`
 - Change stage > Commit with comments
+- Click `Sync Changes`
 
 
 
