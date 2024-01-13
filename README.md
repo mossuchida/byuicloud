@@ -221,6 +221,62 @@ Note:
 - EKS Load Balancer uses Round robin : Each click gets the pod randomly
 - Openshift routes uses Sticky Session : each browser is routed to the same pod
 
+
+## (Optional) Deploy the app in OpenShift
+- Install Openshift on laptop using CRC
+  - Minimal environment for development and test purposes [doc](https://crc.dev/crc/getting_started/getting_started/introducing/)
+- Install the [latest OC Cli](https://docs.openshift.com/container-platform/4.14/cli_reference/openshift_cli/getting-started-cli.html)
+
+- Restart CRC
+```
+crc delete
+crc stop
+crc setup
+crc start
+
+Started the OpenShift cluster.
+
+The server is accessible via web console at:
+  https://console-openshift-console.apps-crc.testing
+
+Log in as administrator:
+  Username: kubeadmin
+  Password: nnnnn....
+
+Log in as user:
+  Username: developer
+  Password: developer
+
+Use the 'oc' command line interface:
+  $ eval $(crc oc-env)
+  $ oc login -u developer https://api.crc.testing:6443
+```
+- Access OpenShift in the above URL.  kubeadmin is the admin account & easier to use
+
+- Access oc cli with kubeadmin
+```
+oc login -u kubeadmin -p nnnn.... https://api.crc.testing:6443```
+
+
+- Run the following command each time you start CRC to reduce the security so that root user can be used
+
+```
+oc adm policy add-scc-to-user anyuid -z default
+```
+
+- Run this command to deploy the app
+
+```
+oc new-app mossuchida/myexpressapp:welcome
+```
+- Run the following command to create the route
+
+```
+oc expose service/myexpressapp
+```
+
+- Find the URL from Network > Routes > Location
+
 ## (Optional) Generate a load against the application
 Install JDK: brew install openjdk
 Install jmeter : https://jmeter.apache.org/download_jmeter.cgi
