@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    deployment: myexpressapp
+  name: myexpressapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: myexpressapp
+  template:
+    metadata:
+      labels:
+        deployment: myexpressapp
+    spec:
+      containers:
+      - image: mossuchida/myexpressapp:latest
+        imagePullPolicy: IfNotPresent
+        name: myexpressapp
+        ports:
+        - containerPort: 3000
+          protocol: TCP

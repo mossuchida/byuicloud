@@ -1,4 +1,4 @@
-# BYUI Cloud test repository
+# BYUI Cloud Teaching Experience
 
 ## Deploying Node.js in Kubernetes & generate a load
 
@@ -141,7 +141,9 @@ OR type command
 docker run --rm -d -p 3000:3000/tcp myexpressapp:latest
 ```
 
-## Configure docker hub
+- Stop the container by right click the container name, then stop
+
+## Configure Docker Hub
 - Connect Registry from VS code > Docker Hub
 - Click Connect Registry > Docker Hub > Docker Hub User Name > Docker Hub Password
 
@@ -157,6 +159,77 @@ Fix .gitignore
 - Check in the changes  by clicking on + sign right to `Changes`
 - Change stage > Commit with comments
 - Click `Sync Changes`
+
+## Deploy Image in Kubernetes
+
+- Connect to your Kubernetes envrionment
+- Create [deploy.yaml](./myExpressApp/deploy.yaml) file
+- Create the pod using deploy.yaml file with the following command
+
+```
+kubectl apply -f deploy.yaml
+```
+
+-	Create [LB.yaml](./myExpressApp/LB.yaml) file to generate routes
+
+-	Create the LoadBalancer service with the following command
+
+```
+kubectl apply -f LB.yaml
+```
+
+- Get the External IP address to connect to the application
+
+```
+kubectl get svc
+```
+
+## Pod Scaling Experiment
+
+Change Node.js app to add count, hostname
+
+- Change [myExpressApp/routes/index.js](./myExpressApp/routes/index.js) as you see in this link
+- Change [myExpressApp/views/index.pug](./myExpressApp/views/index.pug) as you see in this link
+
+- Create an image with a tag name `welcome`, then push image to docker hub
+  - Create an image with [Dockerfile](./myExpressApp/Dockerfile), then when you push the image to Docker Hub, give it the tag name `welcome`
+  - (e.g. docker.io/<YOUR USER NAME>/myexpressapp:welcome)
+- Install this new image to Kubernetes by changing the tag name in [deploy.yaml](./myExpressApp/deploy.yaml)
+- Verify on Docker Desktop or Docker Hub that the tag was created
+
+- Change the tag name in [deploy.yaml](./myExpressApp/deploy.yaml), then run apply command
+```
+kubectl apply -f deploy.yaml
+```
+- Verify that new pod is created
+- Verify that UI displays new style
+  - Verify that it displays the Hostname of the container
+  - Verify that count number increments
+
+Scale the deployment with 2 replicas
+
+- Run the following command to scale the replica to 2 pods
+
+```
+kubectl scale --replicas=2 deployment.app/myexpressapp
+```
+- Open couple incognito windows or 2 different browsers then access the app
+  - Check for the host name and count number
+
+
+Note:
+- EKS Load Balancer uses Round robin : Each click gets the pod randomly
+- Openshift routes uses Sticky Session : each browser is routed to the same pod
+
+## (Optional) Generate a load against the application
+Install JDK: brew install openjdk
+Install jmeter : https://jmeter.apache.org/download_jmeter.cgi
+
+Set JAVA_HOME & jmeter home in .zprofile
+
+Run the following [jmx](./myExpressApp/StressMyExpress.jmx) file to generate the load
+- Change the hostname to hit the correct URL
+
 
 
 
