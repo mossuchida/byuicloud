@@ -319,6 +319,7 @@ oc login -u kubeadmin -p nnnn.... https://api.crc.testing:6443
 oc adm policy add-scc-to-user anyuid -z default
 ```
 
+Option 1
 - Run this command to deploy the app
 
 ```
@@ -330,7 +331,28 @@ oc new-app mossuchida/myexpressapp:welcome
 oc expose service/myexpressapp
 ```
 
-- Find the URL from Network > Routes > Location
+Option 2
+- Create [deploy.yaml](./myExpressApp/deploy.yaml) file
+- Run the following command
+
+```
+kubectl apply -f deploy.yaml
+```
+
+- Create [svc.yaml](./myExpressApp/svc.yaml) file
+- Run the following command
+
+```
+kubectl apply -f svc.yaml
+```
+
+- Create [route.yaml](./myExpressApp/route.yaml) file
+- Run the following command
+
+```
+kubectl apply -f route.yaml
+```
+- Find the URL from Networking > Routes > Location
 
 ## (Optional) Generate a load against the application
 Install JDK: brew install openjdk
