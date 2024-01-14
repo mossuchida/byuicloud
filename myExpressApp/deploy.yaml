@@ -2,22 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    deployment: myexpressapp
+    app: myexpressapp
   name: myexpressapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      deployment: myexpressapp
+      app: myexpressapp
   template:
     metadata:
       labels:
-        deployment: myexpressapp
+        app: myexpressapp
     spec:
       containers:
       - image: mossuchida/myexpressapp:welcome
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: myexpressapp
         ports:
         - containerPort: 3000
-          protocol: TCP

@@ -79,7 +79,7 @@ console.log(msg);
 On command line, go to hello directory, then run the following
 
 ```
-node.app.js
+node app.js
 ```
 
 Create an express app
@@ -160,18 +160,72 @@ Fix .gitignore
 - Change stage > Commit with comments
 - Click `Sync Changes`
 
+## Setup AWS Academy Learner Lab
+
+Create an EKS Cluster
+- Start AWS Lab
+- Go to `Elastic Kubernetes Service`
+- Add Cluster > Mostly default
+  - Give it a name (e.g. demo)
+  - Remove subnet us-east-1e
+  - Add available security group
+- Add `Node Group` to the cluster
+  - Giv it a name (e.g. demo-group)
+  - Select Node IAM role : Select available one (e.g. LabRole)
+
+
+Connect the cluster with `AWS CloudShell`
+
+- If the above command fails, run the [following command](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
+```
+aws eks update-kubeconfig --region region-code --name my-cluster
+e.g. aws eks update-kubeconfig --region us-east-1 --name moss
+```
+
+- run the following command to verify it is configured with the cluster
+```
+kubectl get svc
+```
+
+- Create a `demo` namespace and switch to the namespace
+```
+kubectl create namespace demo
+kubectl config set-context --current --namespace=demo
+```
+
+- Check which namespace you are in
+```
+kubectl config get-contexts
+```
+
 ## Deploy Image in Kubernetes
 
 - Connect to your Kubernetes envrionment
 - Create [deploy.yaml](./myExpressApp/deploy.yaml) file
+- Copy the file to AWS PowerShell
+  - Actions > Upload File
 - Create the pod using deploy.yaml file with the following command
 
 ```
 kubectl apply -f deploy.yaml
 ```
+- Use the following command to track the creation progress
+```
+kubectl get pods -w
+```
+- Login to the pod & check if the service is running
+```
+kubectl exec -it myexpressapp-nnnn... -- /bin/sh
+(e.g.) kubectl exec -it myexpressapp-nnnn... -- /bin/sh
+
+/usr/src/app $wget http://localhost:3000
+cat index.html
+```
+
 
 -	Create [LB.yaml](./myExpressApp/LB.yaml) file to generate routes
-
+- Copy the file to AWS PowerShell
+  - Actions > Upload File
 -	Create the LoadBalancer service with the following command
 
 ```
