@@ -153,6 +153,16 @@ Push docker image to docker hub
 ```
 docker image push docker.io/<YOUR USER NAME>/myexpressapp:latest
 ```
+
+## Play with Docker
+- Go to [Play with Docker](https://labs.play-with-docker.com/)
+- Login with docker credential
+- Enter the following docker command
+```
+docker run -dp 3000:3000 <Your user name>/myexpressapp:welcome
+```
+- Click the port number 3000
+
 ## Check in the code in Github
 
 Fix .gitignore
@@ -172,6 +182,9 @@ Create an EKS Cluster
 - Add `Node Group` to the cluster
   - Giv it a name (e.g. demo-group)
   - Select Node IAM role : Select available one (e.g. LabRole)
+
+(DOES NOT WORK)
+- ~~Create [Ingress Controller](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)~~ - Note: We do not have permission to create it
 
 
 Connect the cluster with `AWS CloudShell`
@@ -222,7 +235,7 @@ kubectl exec -it myexpressapp-nnnn... -- /bin/sh
 cat index.html
 ```
 
-
+DEPRICATED - Sometimes the link works, other times link does not work
 -	Create [LB.yaml](./myExpressApp/LB.yaml) file to generate routes
 - Copy the file to AWS PowerShell
   - Actions > Upload File
@@ -269,11 +282,6 @@ kubectl scale --replicas=2 deployment.app/myexpressapp
 ```
 - Open couple incognito windows or 2 different browsers then access the app
   - Check for the host name and count number
-
-
-Note:
-- EKS Load Balancer uses Round robin : Each click gets the pod randomly
-- Openshift routes uses Sticky Session : each browser is routed to the same pod
 
 
 ## (Optional) Deploy the app in OpenShift
